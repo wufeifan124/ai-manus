@@ -1,9 +1,6 @@
 services:
   frontend:
-    image: ${IMAGE_REGISTRY:-simpleyyt}/manus-frontend:${IMAGE_TAG:-latest}
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: simpleyyt/manus-frontend
     ports:
       - "5173:80"
     depends_on:
@@ -15,10 +12,7 @@ services:
       - BACKEND_URL=http://backend:8000
 
   backend:
-    image: ${IMAGE_REGISTRY:-simpleyyt}/manus-backend:${IMAGE_TAG:-latest}
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: simpleyyt/manus-backend
     depends_on:
       - sandbox
     restart: unless-stopped
@@ -26,14 +20,34 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - manus-network
-    env_file:
-      - .env
+    environment:
+      # OpenAI API base URL
+      - API_BASE=https://instcopilot-api.com/v1
+      # OpenAI API key, replace with your own
+      - API_KEY=sk-cSRE4rQMZqFjPlhjulwQ3DjbMFiOUaIZyxg1NX3zMx9kLS86
+      # LLM model name
+      - MODEL_NAME=deepseek-v3
+      # LLM temperature parameter, controls randomness
+      - TEMPERATURE=0.5
+      # Maximum tokens for LLM response
+      - MAX_TOKENS=8192
+      # Google Search API key for web search capability
+      - GOOGLE_SEARCH_API_KEY=AIzaSyCAvJ5Dgv4YbDsvDdbe5mCpGNcGmm-sUxw
+      # Google Custom Search Engine ID
+      - GOOGLE_SEARCH_ENGINE_ID=c5074dde9b6424324
+      # Application log level
+      - LOG_LEVEL=INFO
+      # Docker image used for the sandbox
+      - SANDBOX_IMAGE=simpleyyt/manus-sandbox
+      # Prefix for sandbox container names
+      - SANDBOX_NAME_PREFIX=sandbox
+      # Time-to-live for sandbox containers in minutes
+      - SANDBOX_TTL_MINUTES=30
+      # Docker network for sandbox containers
+      - SANDBOX_NETWORK=manus-network
 
   sandbox:
-    image: ${IMAGE_REGISTRY:-simpleyyt}/manus-sandbox:${IMAGE_TAG:-latest}
-    build:
-      context: ./sandbox
-      dockerfile: Dockerfile
+    image: simpleyyt/manus-sandbox
     command: /bin/sh -c "exit 0"  # prevent sandbox from starting, ensure image is pulled
     restart: "no"
     networks:
