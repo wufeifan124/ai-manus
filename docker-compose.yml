@@ -42,7 +42,7 @@ services:
       # Prefix for sandbox container names
       - SANDBOX_NAME_PREFIX=sandbox
       # Time-to-live for sandbox containers in minutes
-      - SANDBOX_TTL_MINUTES=30
+      - SANDBOX_TTL_MINUTES=5
       # Docker network for sandbox containers
       - SANDBOX_NETWORK=manus-network
 
