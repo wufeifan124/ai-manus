@@ -26,11 +26,11 @@ services:
       # OpenAI API key, replace with your own
       - API_KEY=sk-cSRE4rQMZqFjPlhjulwQ3DjbMFiOUaIZyxg1NX3zMx9kLS86
       # LLM model name
-      - MODEL_NAME=deepseek-v3
+      - MODEL_NAME=gpt-4.1-nano
       # LLM temperature parameter, controls randomness
       - TEMPERATURE=0.5
       # Maximum tokens for LLM response
-      - MAX_TOKENS=8192
+      - MAX_TOKENS=32768
       # Google Search API key for web search capability
       - GOOGLE_SEARCH_API_KEY=AIzaSyCAvJ5Dgv4YbDsvDdbe5mCpGNcGmm-sUxw
       # Google Custom Search Engine ID
